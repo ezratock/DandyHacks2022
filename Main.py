@@ -1,4 +1,5 @@
 import pygame
+import os
 
 def left():
     return 'left'
@@ -87,10 +88,15 @@ while not game_started:
 
 screen.fill(white)
 
+lvl_bg = pygame.transform.scale(pygame.image.load(os.path.join('src', 'Test-01.png')),(X,Y))
+
+def draw_level():
+    screen.blit(lvl_bg, (0,0))
+
 # Run until the user asks to quit
 running = True
 while running:
-    
+    draw_level()
     text_shown = ''
     
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -124,7 +130,7 @@ while running:
     # set the center of the rectangular object.
     textRect.center = (X // 2, Y // 2)
 
-    screen.fill(white)
+    # screen.fill(white)
 
     screen.blit(text, textRect)
 
