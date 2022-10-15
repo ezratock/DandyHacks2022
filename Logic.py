@@ -29,7 +29,7 @@ class Node(Object, ABC):
     def logic_tick(self):
         # write next state of output node
         self.node_out.set_state_next(self.state)
-
+    
         # read next state of self node
         self.state = self.state_next
 
