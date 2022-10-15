@@ -146,7 +146,7 @@ def run_game():
   
         #updates screen with changes based on user input
         pygame.display.update()
-        clock.tick(30)
+        clock.tick(60)
 
 #main menu
 def main_menu():

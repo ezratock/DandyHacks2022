@@ -4,7 +4,7 @@ import pygame
 from Setup import *
 import math
 
-SPEED = 1
+SPEED = 2
 
 #SHOULD BE IN SETUP.PY
 system_nav = "/" if platform.system() == 'Darwin' else "\\"
