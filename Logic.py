@@ -38,3 +38,4 @@ class Wire(Node):
     def __init__(self, x, y, node_out, shape):
         super.__init__(x, y, node_out)
         self.shape = shape
+        #shape = a string (e.g. 'lr' or 'ur' that describes the wire's connections
