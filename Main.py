@@ -193,7 +193,7 @@ while running:
 
     draw_level()
 
-    player.draw()
+    player.draw(screen)
 
     for object in objects:
         object.draw(screen)

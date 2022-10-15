@@ -1,10 +1,14 @@
 from enum import Enum
 from Setup import *
+import platform
+import pygame
 
 FRICTION = 0.9
 SPEED = 1
 
-images = ["", "slime-v01-right.png", "slime-v01-left.png", "slime-v01-down.png", "slime-v01-up.png"]
+system_nav = "/" if platform.system() == 'Darwin' else "\\"
+
+images = ["slime-v01-right.png", "slime-v01-left.png", "slime-v01-down.png", "slime-v01-up.png"]
 
 class Direction(Enum):
     NONE = 0
@@ -21,36 +25,37 @@ class Player:
         self.velocity_x = 0
         self.velocity_y = 0
         self.direction = Direction.UP;
-        self.image = update_image(Direction.UP);
+        self.update_image(3);
 
-    def draw(self):
+    def draw(self, screen):
         self.velocity_y *= FRICTION
         self.velocity_x *= FRICTION
         self.x += self.velocity_x
         self.y += self.velocity_y
-        pygame.image.load(self.image).convert()
+        img = pygame.image.load(self.image).convert()
+        screen.blit(img, (0, 0))
 
     def right(self):
         if self.direction == Direction.RIGHT:
             self.velocity_x = SPEED
-            update_image(Direction.RIGHT)
+            self.update_image(0)
 
     def left(self):
         if self.direction == Direction.LEFT:
             self.velocity_x = -SPEED
-            update_image(Direction.LEFT)
+            self.update_image(1)
 
     def down(self):
         if self.direction == Direction.DOWN:
             self.velocity_y = SPEED
-            update_image(Direction.DOWN)
+            self.update_image(2)
 
     def up(self):
         if self.direction == Direction.UP:
             self.velocity_y = -SPEED
-            update_image(Direction.UP)
+            self.update_image(3)
 
-
-
-def update_image(direction):
-    self.image = "src" + system_nav + images[direction]
+    def update_image(self, direction):
+        self.image = "src" + system_nav + images[direction]
+        # self.image = "Users/ezra/Documents/DandyHacks2022/src/slime-v01-right.png"
+        # print(self.image)
