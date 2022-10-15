@@ -13,9 +13,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Fill the background with white
-    screen.fill((255, 255, 255))
-
     # Flip the display (updates the display with changes made to the screen)
     pygame.display.flip()
 
