@@ -3,8 +3,12 @@ from Object import *
 from Player import *
 from Setup import *
 import os
-from tkinter import *
-from tkinter import messagebox
+import sys
+import subprocess
+import popup
+import tkinter as tk
+from tkinter import ttk
+from tkinter.messagebox import showinfo
  
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -46,73 +50,6 @@ def start_game(on_Start):
    screen.blit(options_text, options_location)
    pygame.display.update()
  
-#main menu
-def main_menu():
-   game_started = False
-   on_Start = True
-   up_pressed = False
-   down_pressed = False
-   while not game_started:
-       onStart = True
-       if pygame.key.get_pressed()[pygame.K_RETURN]:
-           if on_Start:
-               game_started = True
-           else:
-               options_running = True
-               screen.fill(black)
-               escape_font = pygame.font.SysFont('freesansbold', 20)
-               text = escape_font.render("Press Esc to go back to main menu.", True, green)
-               height_difference = SCREEN_HEIGHT / 7
-               screen.blit(text, (SCREEN_WIDTH/20,height_difference * 1/4 ))
-               options_font = pygame.font.SysFont('freesansbold', 32)
-               text = options_font.render("Arrow Key Up: moves character up.", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 1))
-               text = options_font.render("Arrow Key Down: moves character down.", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 2))
-               text = options_font.render("Arrow Key Right: moves character right.", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 3))
-               text = options_font.render("Arrow Key Left: moves character left.", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 4))
-               text = options_font.render("T Key: action key", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 5))
-               text = options_font.render("K Key: cancel key.", True, white)
-               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 6))
-               pygame.display.update()
- 
-               while options_running:
-                   if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                       start_game(True)
-                       options_running = False
-                   for event in pygame.event.get():
-                       if event.type == pygame.QUIT:
-                           pygame.quit()
-                           quit()
-       pygame.display.update()
-       if pygame.key.get_pressed()[pygame.K_UP]:
-           if not up_pressed:
-               start_game(on_Start)
-               on_Start = not on_Start
-               up_pressed = True
-       else:
-           up_pressed = False
- 
-       if pygame.key.get_pressed()[pygame.K_DOWN]:
-           if not down_pressed:
-               start_game(on_Start)
-               on_Start = not on_Start
-               down_pressed = True
-       else:
-           down_pressed = False
- 
-       pygame.display.update()
-       for event in pygame.event.get():
-           if event.type == pygame.QUIT:
-               pygame.quit()
-               quit()
- 
-screen.fill(white)
-start_game(False)
-main_menu()
  
 objects = []
 objects.append(Wall(100,100))
@@ -132,20 +69,20 @@ def run_game():
     j_pressed = False
     k_pressed = False
 
+    def popup_window():
+        r = tk.Tk()
+        r.title('Are you sure you want to quit?')
+        button1 = tk.Button(r, text='Yes', width=25, command=r.destroy)
+        button2 = tk.Button(r, text='No', width = 25, command = r.destroy)
+        button1.pack()
+        button2.pack()
+        r.mainloop()
+
     while running:
-        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            choice_made = False
-            while not choice_made:
-                '''
-                Tk().wm_withdraw() #to hide the main window
-                messagebox.showinfo('Continue','OK')
-                pygame.display.update()'''
-                if pygame.key.get_pressed()[pygame.K_1]:
-                    start_game(True)
-                    main_menu()
-                    choice_made = True
-                if pygame.key.get_pressed()[pygame.K_2]:
-                    choice_made = True
+        if pygame.key.get_pressed()[pygame.K_ESCAPE] and pygame.key.get_pressed()[pygame.K_x]:
+            popup_window()
+            start_game(True)
+            main_menu()
     
         text_shown = ''
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -206,11 +143,79 @@ def run_game():
         #updates screen with changes based on user input
         pygame.display.update()
 
+#main menu
+def main_menu():
+   game_started = False
+   on_Start = True
+   up_pressed = False
+   down_pressed = False
+   while not game_started:
+       onStart = True
+       if pygame.key.get_pressed()[pygame.K_RETURN]:
+           if on_Start:
+               game_started = True
+           else:
+               options_running = True
+               screen.fill(black)
+               escape_font = pygame.font.SysFont('freesansbold', 20)
+               text = escape_font.render("Press Esc to go back to main menu.", True, green)
+               height_difference = SCREEN_HEIGHT / 8
+               screen.blit(text, (SCREEN_WIDTH/20,height_difference * 1/4 ))
+               options_font = pygame.font.SysFont('freesansbold', 32)
+               text = options_font.render("Arrow Key Up: moves character up.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 1))
+               text = options_font.render("Arrow Key Down: moves character down.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 2))
+               text = options_font.render("Arrow Key Right: moves character right.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 3))
+               text = options_font.render("Arrow Key Left: moves character left.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 4))
+               text = options_font.render("T Key: action key", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 5))
+               text = options_font.render("K Key: cancel key.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 6))
+               text = options_font.render("Esc Key: quit the game.", True, white)
+               screen.blit(text, (SCREEN_WIDTH/20, height_difference * 7))
+               pygame.display.update()
+ 
+               while options_running:
+                   if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                       start_game(True)
+                       options_running = False
+                   for event in pygame.event.get():
+                       if event.type == pygame.QUIT:
+                           pygame.quit()
+                           quit()
+       pygame.display.update()
+       if pygame.key.get_pressed()[pygame.K_UP]:
+           if not up_pressed:
+               start_game(on_Start)
+               on_Start = not on_Start
+               up_pressed = True
+       else:
+           up_pressed = False
+ 
+       if pygame.key.get_pressed()[pygame.K_DOWN]:
+           if not down_pressed:
+               start_game(on_Start)
+               on_Start = not on_Start
+               down_pressed = True
+       else:
+           down_pressed = False
+ 
+       pygame.display.update()
+       for event in pygame.event.get():
+           if event.type == pygame.QUIT:
+               pygame.quit()
+               quit()
+   run_game()
 
-screen.fill(white)
-start_game(False)
-main_menu()
-run_game()
+def main():
+    screen.fill(white)
+    start_game(False)
+    main_menu()
+
+main()
 
 # Quits game
 pygame.quit()   
