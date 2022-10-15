@@ -176,7 +176,7 @@ def main_menu():
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 3))
                 text = options_font.render("Arrow Key Left: moves character left.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 4))
-                text = options_font.render("T Key: action key", True, white)
+                text = options_font.render("T Key: action key.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 5))
                 text = options_font.render("K Key: cancel key.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 6))
