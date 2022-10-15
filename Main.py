@@ -11,6 +11,7 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
+font_path = "PublicPixel-z84yD.ttf"
 
 pygame.init()
 
@@ -22,9 +23,9 @@ screen.fill(black)
 game_name = 'M&T Bank: The Game'
 pygame.display.set_caption(game_name)
 
-font = pygame.font.SysFont('skia', 40)
+font = pygame.font.Font(font_path, 40)
 title = font.render(game_name, True, white)
-start_text = font.render('START', True, black, green)
+start_text = font.render('START', True, green)
 options_text = font.render('OPTIONS', True, white)
 title_location = ((SCREEN_WIDTH - title.get_width()) / 2, (SCREEN_HEIGHT - title.get_height()) / 4)
 start_location = ((SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2)
@@ -37,11 +38,11 @@ clock = pygame.time.Clock()
 def start_game(on_Start):
     screen.fill(black)
     if not on_Start:
-        start_text = font.render('START', True, black, green)
+        start_text = font.render('START', True, green)
         options_text = font.render('OPTIONS', True, white)
     elif on_Start:
         start_text = font.render('START', True, white)
-        options_text = font.render('OPTIONS', True, black, green)
+        options_text = font.render('OPTIONS', True, green)
 
     screen.blit(title, title_location)
     screen.blit(start_text, start_location)
@@ -162,11 +163,11 @@ def main_menu():
             else:
                 options_running = True
                 screen.fill(black)
-                escape_font = pygame.font.SysFont('freesansbold', 24)
+                escape_font = pygame.font.Font(font_path, 12)
                 text = escape_font.render("(Press Esc to go back to main menu)", True, green)
                 height_difference = SCREEN_HEIGHT / 8
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1 / 4))
-                options_font = pygame.font.SysFont('freesansbold', 32)
+                options_font = pygame.font.Font(font_path, 20)
                 text = options_font.render("Arrow Key Up: moves character up.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1))
                 text = options_font.render("Arrow Key Down: moves character down.", True, white)
