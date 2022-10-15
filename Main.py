@@ -107,16 +107,16 @@ while running:
     text_shown = ''
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         text_shown = right()
-        player.x += 1
+        player.right()
     if pygame.key.get_pressed()[pygame.K_LEFT]:
         text_shown = left()
-        player.x -= 1
+        player.left()
     if pygame.key.get_pressed()[pygame.K_UP]:
         text_shown = up()
-        player.y -= 1
+        player.up()
     if pygame.key.get_pressed()[pygame.K_DOWN]:
         text_shown = down()
-        player.y += 1
+        player.down()
     if pygame.key.get_pressed()[pygame.K_j]:
         text_shown = action()
     if pygame.key.get_pressed()[pygame.K_k]:
@@ -135,6 +135,9 @@ while running:
 
     # screen.fill(white)
 
+    player.update()
+
+    # screen.fill(white)
     for object in objects:
         object.draw(screen)
 
