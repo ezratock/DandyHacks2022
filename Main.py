@@ -2,6 +2,7 @@ import pygame
 from Object import *
 from Player import *
 from Setup import *
+from Logic import *
 import os
 import sys
 import subprocess
@@ -52,7 +53,9 @@ def start_game(on_Start):
  
  
 objects = []
-objects.append(Wall(100,100))
+objects.append(Wall(64, 128))
+objects.append(Wall(128, 64))
+objects.append(Pad(320, 320, None))
  
 lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
  
@@ -62,12 +65,21 @@ def draw_level():
 # Run until the user asks to quit
 def run_game():   
     running = True
-    left_pressed = False
-    right_pressed = False
-    up_pressed = False
-    down_pressed = False
     j_pressed = False
     k_pressed = False
+    right_pressed = False
+    left_pressed = False
+    up_pressed = False
+    down_pressed = False
+
+    def popup_window():
+        r = tk.Tk()
+        r.title('Are you sure you want to quit?')
+        button1 = tk.Button(r, text='Yes', width=25, command=r.destroy)
+        button2 = tk.Button(r, text='No', width = 25, command = r.destroy)
+        button1.pack()
+        button2.pack()
+        r.mainloop()
 
     def popup_window():
         r = tk.Tk()
@@ -86,33 +98,45 @@ def run_game():
     
         text_shown = ''
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
-            player.right()
-            if not right_pressed:
+            if (player.on_grid() and not right_pressed) or player.direction == Direction.RIGHT:
                 player.direction = Direction.RIGHT
+                player.right()
                 right_pressed = True
         else:
-            right_pressed= False
+            right_pressed = False
+            if not player.on_grid() and player.direction == Direction.RIGHT:
+                player.right()
+
         if pygame.key.get_pressed()[pygame.K_LEFT]:
-            player.left()
-            if not left_pressed:
+            if (player.on_grid() and not left_pressed) or player.direction == Direction.LEFT:
                 player.direction = Direction.LEFT
+                player.left()
                 left_pressed = True
         else:
             left_pressed = False
+            if not player.on_grid() and player.direction == Direction.LEFT:
+                player.left()
+
         if pygame.key.get_pressed()[pygame.K_UP]:
-            player.up()
-            if not up_pressed:
+            if (player.on_grid() and not up_pressed) or player.direction == Direction.UP:
                 player.direction = Direction.UP
+                player.up()
                 up_pressed = True
         else:
             up_pressed = False
+            if not player.on_grid() and player.direction == Direction.UP:
+                player.up()
+
         if pygame.key.get_pressed()[pygame.K_DOWN]:
-            player.down()
-            if not down_pressed:
+            if (player.on_grid() and not down_pressed) or player.direction == Direction.DOWN:
                 player.direction = Direction.DOWN
+                player.down()
                 down_pressed = True
         else:
             down_pressed = False
+            if not player.on_grid() and player.direction == Direction.DOWN:
+                player.down()
+
         if pygame.key.get_pressed()[pygame.K_j]:
             #add method here
             if not j_pressed:
