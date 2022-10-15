@@ -21,6 +21,7 @@ def cancel():
 white = (255, 255, 255)
 green = (0, 255, 0)
 blue = (0, 0, 255)
+black = (0, 0, 0)
 
 
 
@@ -31,7 +32,21 @@ Y = 500
 
 screen = pygame.display.set_mode([X, Y])
 
-# Fill the background with white
+# Fill the background with black
+screen.fill(black)
+
+game_name = 'M&T Bank: The Game'
+pygame.display.set_caption(game_name)
+
+game_started = False
+while not game_started:
+    if pygame.key.get_pressed()[pygame.K_RETURN]:
+        game_started = True
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+    pygame.display.update()
+
 screen.fill(white)
 
 # Run until the user asks to quit
@@ -57,17 +72,11 @@ while running:
 
     if pygame.key.get_pressed()[pygame.K_k]:
         text_shown = cancel()
-    
-    pygame.display.set_caption('M&T Bank: The Game')
  
-    # create a font object.
     # 1st parameter is the font file
-    # which is present in pygame.
     # 2nd parameter is size of the font
     font = pygame.font.Font('freesansbold.ttf', 32)
- 
-    # create a text surface object,
-    # on which text is drawn on it.
+
     text = font.render(text_shown, True, green, blue)
  
     # create a rectangular object for the
@@ -85,11 +94,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    # Flip the display (updates the display with changes made to the screen)
-    pygame.display.flip()
-
+    
+    #updates screen with changes based on user input
     pygame.display.update()
 
-# Done! Time to quit.
+# Quits game
 pygame.quit()
