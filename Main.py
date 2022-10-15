@@ -73,7 +73,7 @@ def run_game():
 
     while running:
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            start_game(True)
+            start_game(False)
             main_menu()
     
         text_shown = ''
@@ -155,7 +155,6 @@ def main_menu():
    up_pressed = False
    down_pressed = False
    while not game_started:
-       onStart = True
        if pygame.key.get_pressed()[pygame.K_RETURN]:
            if on_Start:
                game_started = True
@@ -185,7 +184,7 @@ def main_menu():
  
                while options_running:
                    if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                       start_game(False)
+                       start_game(not on_Start)
                        options_running = False
                    for event in pygame.event.get():
                        if event.type == pygame.QUIT:
