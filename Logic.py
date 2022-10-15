@@ -40,6 +40,26 @@ class Wire(Node):
         self.shape = shape
         # shape = a string (e.g. 'lr' or 'ur' that describes the wire's connections
 
+        self.filenames = [f'wire-{c}-off.png' for c in self.shape]
+        self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
+
+    def logic_tick(self):
+        super().logic_tick()
+        if self.state:
+            self.filenames = [f'wire-{c}-on.png' for c in self.shape]
+            self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
+        else:
+            self.filenames = [f'wire-{c}-off.png' for c in self.shape]
+            self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
+
+    def draw(self, surface):
+        pos_x = self.x - player.x
+        pos_y = self.y - player.y
+        if -self.width <= pos_x <= SCREEN_WIDTH and -self.height <= pos_y <= SCREEN_HEIGHT:
+            self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
+            for texture in self.tex:
+                surface.blit(texture, self.object)
+
 
 class Pad(Node):
     def __init__(self, x, y, node_out):
