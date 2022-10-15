@@ -1,3 +1,4 @@
+from cgi import print_arguments
 import pygame
 from Object import *
 from Player import *
@@ -6,10 +7,6 @@ from Logic import *
 import os
 import sys
 import subprocess
-import popup
-import tkinter as tk
-from tkinter import ttk
-from tkinter.messagebox import showinfo
  
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -37,6 +34,8 @@ title_location = ((SCREEN_WIDTH - title.get_width()) / 2, (SCREEN_HEIGHT - title
 start_location = ((SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2)
 options_location = ((SCREEN_WIDTH - options_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - options_text.get_height())) / 4)
  
+clock = pygame.time.Clock()
+
 def start_game(on_Start):
    screen.fill(black)
    if not on_Start:
@@ -72,27 +71,8 @@ def run_game():
     up_pressed = False
     down_pressed = False
 
-    def popup_window():
-        r = tk.Tk()
-        r.title('Are you sure you want to quit?')
-        button1 = tk.Button(r, text='Yes', width=25, command=r.destroy)
-        button2 = tk.Button(r, text='No', width = 25, command = r.destroy)
-        button1.pack()
-        button2.pack()
-        r.mainloop()
-
-    def popup_window():
-        r = tk.Tk()
-        r.title('Are you sure you want to quit?')
-        button1 = tk.Button(r, text='Yes', width=25, command=r.destroy)
-        button2 = tk.Button(r, text='No', width = 25, command = r.destroy)
-        button1.pack()
-        button2.pack()
-        r.mainloop()
-
     while running:
-        if pygame.key.get_pressed()[pygame.K_ESCAPE] and pygame.key.get_pressed()[pygame.K_x]:
-            popup_window()
+        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
             start_game(True)
             main_menu()
     
@@ -166,6 +146,7 @@ def run_game():
   
         #updates screen with changes based on user input
         pygame.display.update()
+        clock.tick(30)
 
 #main menu
 def main_menu():
@@ -204,7 +185,7 @@ def main_menu():
  
                while options_running:
                    if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                       start_game(True)
+                       start_game(False)
                        options_running = False
                    for event in pygame.event.get():
                        if event.type == pygame.QUIT:
