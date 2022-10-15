@@ -4,9 +4,7 @@ from Object import *
 from Player import *
 from Setup import *
 from Logic import *
-import os
-import sys
-import subprocess
+import os 
  
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -161,8 +159,8 @@ def main_menu():
            else:
                options_running = True
                screen.fill(black)
-               escape_font = pygame.font.SysFont('freesansbold', 20)
-               text = escape_font.render("Press Esc to go back to main menu.", True, green)
+               escape_font = pygame.font.SysFont('freesansbold', 24)
+               text = escape_font.render("(Press Esc to go back to main menu)", True, green)
                height_difference = SCREEN_HEIGHT / 8
                screen.blit(text, (SCREEN_WIDTH/20,height_difference * 1/4 ))
                options_font = pygame.font.SysFont('freesansbold', 32)
@@ -222,4 +220,4 @@ def main():
 main()
 
 # Quits game
-pygame.quit()   
+pygame.quit()
