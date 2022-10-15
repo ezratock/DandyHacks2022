@@ -38,6 +38,10 @@ screen.fill(black)
 game_name = 'M&T Bank: The Game'
 pygame.display.set_caption(game_name)
 
+font = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render(game_name, True, white)
+screen.blit(text, ((X - text.get_width())/2,(Y - text.get_height())/4))
+
 game_started = False
 while not game_started:
     if pygame.key.get_pressed()[pygame.K_RETURN]:
