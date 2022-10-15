@@ -31,3 +31,8 @@ class Wall(Object):
         if (pos_x >= - self.width and pos_x <= SCREEN_WIDTH and pos_y >= -self.height and pos_y <= SCREEN_HEIGHT):
             self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
             pygame.draw.rect(surface, self.color, self.object)
+
+class Box(Object):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        

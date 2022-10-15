@@ -191,9 +191,9 @@ while running:
     # set the center of the rectangular object.
     textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
-    player.update()
-
     draw_level()
+
+    player.draw()
 
     for object in objects:
         object.draw(screen)
