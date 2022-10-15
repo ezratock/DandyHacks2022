@@ -40,25 +40,36 @@ game_name = 'M&T Bank: The Game'
 pygame.display.set_caption(game_name)
 
 font = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render(game_name, True, white)
 start_text = font.render('START', True, black, green)
 options_text = font.render('OPTIONS', True, white)
-start_location = (SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2
-options_location = (SCREEN_WIDTH - start_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - start_text.get_height())) / 2
+text_location = ((SCREEN_WIDTH - text.get_width()) / 2, (SCREEN_HEIGHT - text.get_height()) / 4)
+start_location = ((SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2)
+options_location = ((SCREEN_WIDTH - options_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - options_text.get_height())) / 4)
 
-def start_game():
-    text = font.render(game_name, True, white)
-    start_text = font.render('START', True, black, green)
-    options_text = font.render('OPTIONS', True, white)
-    screen.blit(text, ((SCREEN_WIDTH - text.get_width()) / 2, (SCREEN_HEIGHT - text.get_height()) / 4))
-    screen.blit(start_text, ((SCREEN_WIDTH - text.get_width()) / 2, (SCREEN_HEIGHT - text.get_height()) / 2))
+def start_game(on_Start):
+    screen.fill(black)
+    if not on_Start:
+        start_text = font.render('START', True, black, green)
+        options_text = font.render('OPTIONS', True, white)
+    elif on_Start:
+        start_text = font.render('START', True, white)
+        options_text = font.render('OPTIONS', True, black, green)
 
-start_game()
+    screen.blit(text, text_location)
+    screen.blit(start_text, start_location)
+    screen.blit(options_text, options_location)
+
+start_game(False)
 #main menu
 game_started = False
+on_Start = True
+up_pressed = False
+down_pressed = False
 while not game_started:
     onStart = True
     if pygame.key.get_pressed()[pygame.K_RETURN]:
-        if onStart:
+        if on_Start:
             game_started = True
         else:
             options_running = True
@@ -69,16 +80,21 @@ while not game_started:
                 if pygame.key.get_pressed(pygame.K_ESCAPE):
                     start_game()
                     options_running = False
-    if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_DOWN]:
-        onStart = not onStart
-        if onStart:
-            start_text = font.render('START', True, black, green)
-            options_text = font.render('OPTIONS', True, white)
-        else:
-            start_text = font.render('START', True, black, green)
-            options_text = font.render('OPTIONS', True, white)
-        screen.blit(start_text, start_location)
-        screen.blit(options_text, options_location)
+    if pygame.key.get_pressed()[pygame.K_UP]:
+        if not up_pressed:
+            start_game(on_Start)
+            on_Start = not on_Start
+            up_pressed = True
+    else:
+        up_pressed = False
+
+    if pygame.key.get_pressed()[pygame.K_DOWN]:
+        if not down_pressed:
+            start_game(on_Start)
+            on_Start = not on_Start
+            down_pressed = True
+    else:
+        down_pressed = False
 
 
     for event in pygame.event.get():
@@ -172,3 +188,4 @@ while running:
 
 # Quits game
 pygame.quit()
+
