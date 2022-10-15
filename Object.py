@@ -25,6 +25,7 @@ class Wall(Object):
         self.color = (128,128,128)
         self.width = WALL_SIZE
         self.height = WALL_SIZE
+        self.wall_texture = pygame.image.load(os.path.join('src', 'textures', 'Wall-base-64px-1.png'))
 
     def draw(self, surface):
         pos_x = self.x-player.x
@@ -32,7 +33,7 @@ class Wall(Object):
         if -self.width <= pos_x <= SCREEN_WIDTH and -self.height <= pos_y <= SCREEN_HEIGHT:
             self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
             #pygame.draw.rect(surface, self.color, self.object)
-
+            surface.blit(self.wall_texture, self.object)
 
 class Box(Object):
     def __init__(self, x, y):
