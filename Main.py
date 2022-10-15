@@ -2,6 +2,7 @@ import pygame
 from Object import *
 from Player import *
 from Setup import *
+import os
 
 def left():
     return 'left'
@@ -93,10 +94,16 @@ screen.fill(white)
 objects = []
 objects.append(Wall(100,100))
 
+lvl_bg = pygame.transform.scale(pygame.image.load
+                                (os.path.join('src', 'Test-01.png')),(SCREEN_WIDTH,SCREEN_HEIGHT))
+
+def draw_level():
+    screen.blit(lvl_bg,(0,0))
 
 # Run until the user asks to quit
 running = True
 while running:
+    draw_level()
     text_shown = ''
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         text_shown = right()
@@ -126,7 +133,7 @@ while running:
     textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
 
-    screen.fill(white)
+    # screen.fill(white)
 
     for object in objects:
         object.draw(screen)
