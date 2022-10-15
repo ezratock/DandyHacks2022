@@ -66,7 +66,7 @@ while not game_started:
             text = font.render("Press Esc to go back to main menu.", True, white)
             screen.blit(text, (0,0))
             while options_running:
-                if(pygame.key.get_pressed(pygame.K_ESCAPE)):
+                if pygame.key.get_pressed(pygame.K_ESCAPE):
                     start_game()
                     options_running = False
     if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_DOWN]:
@@ -91,8 +91,7 @@ screen.fill(white)
 objects = []
 objects.append(Wall(100,100))
 
-lvl_bg = pygame.transform.scale(pygame.image.load
-                                (os.path.join('src', 'Test-01.png')),(SCREEN_WIDTH,SCREEN_HEIGHT))
+lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
 
 def draw_level():
     screen.blit(lvl_bg,(0,0))
