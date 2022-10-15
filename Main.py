@@ -2,6 +2,7 @@ import pygame
 from Object import *
 from Player import *
 from Setup import *
+from Logic import *
 import os
 from tkinter import *
 from tkinter import messagebox
@@ -115,8 +116,9 @@ start_game(False)
 main_menu()
  
 objects = []
-objects.append(Wall(64,128))
+objects.append(Wall(64, 128))
 objects.append(Wall(128, 64))
+objects.append(Pad(320, 320, None))
  
 lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
  
