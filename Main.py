@@ -39,13 +39,47 @@ game_name = 'M&T Bank: The Game'
 pygame.display.set_caption(game_name)
 
 font = pygame.font.Font('freesansbold.ttf', 32)
-text = font.render(game_name, True, white)
-screen.blit(text, ((X - text.get_width())/2,(Y - text.get_height())/4))
+start_text = font.render('START', True, black, green)
+options_text = font.render('OPTIONS', True, white)
+start_location = (X - start_text.get_width())/2,(Y - start_text.get_height())/2
+options_location = (X - start_text.get_width())/2,(3*(Y - start_text.get_height()))/2 
 
+def start_game():
+    text = font.render(game_name, True, white)
+    start_text = font.render('START', True, black, green)
+    options_text = font.render('OPTIONS', True, white)
+    screen.blit(text, ((X - text.get_width())/2,(Y - text.get_height())/4))
+    screen.blit(start_text, ((X - text.get_width())/2,(Y - text.get_height())/2))
+
+start_game()
+#main menu
 game_started = False
 while not game_started:
+    onStart = True
     if pygame.key.get_pressed()[pygame.K_RETURN]:
-        game_started = True
+        if onStart:
+            game_started = True
+        else:
+            options_running = True
+            screen.fill(black)
+            text = font.render("Press Esc to go back to main menu.", True, white)
+            screen.blit(text, (0,0))
+            while options_running:
+                if(pygame.key.get_pressed(pygame.K_ESCAPE)):
+                    start_game()
+                    options_running = False
+    if pygame.key.get_pressed()[pygame.K_DOWN] or pygame.key.get_pressed()[pygame.K_DOWN]:
+        onStart = not onStart
+        if onStart:
+            start_text = font.render('START', True, black, green)
+            options_text = font.render('OPTIONS', True, white)
+        else:
+            start_text = font.render('START', True, black, green)
+            options_text = font.render('OPTIONS', True, white)
+        screen.blit(start_text, start_location)
+        screen.blit(options_text, options_location)
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
