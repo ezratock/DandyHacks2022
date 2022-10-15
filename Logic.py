@@ -77,10 +77,6 @@ class Pad(Node):
 
 
 class Osc(Pad):
-    def __init__(self, x, y):
-        super().__init__(x, y, self)
-        self.logic_tick()
-
     def __init__(self, x, y, node_out):
         super().__init__(x, y, node_out)
         self.logic_tick()
@@ -91,6 +87,8 @@ class Osc(Pad):
 
 
 class Door(Node):
+    def __init__(self):
+        pass
 
     def logic_tick(self):
         pass

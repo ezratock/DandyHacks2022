@@ -54,7 +54,7 @@ objects = []
 objects.append(Wall(64, 128))
 objects.append(Wall(128, 64))
 objects.append(Wire(320, 320, None, 'ru'))
-objects.append(Osc(400, 400))
+objects.append(Osc(384, 384, Door()))
 
 
 lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
@@ -137,10 +137,10 @@ def run_game():
             k_pressed = False
 
         draw_level()
+        for obj in objects:
+            obj.draw(screen)
         player.draw(screen)
 
-        for object in objects:
-            object.draw(screen)
 
         # Did the user click the window close button?
         for event in pygame.event.get():
@@ -150,7 +150,7 @@ def run_game():
         # updates screen with changes based on user input
         pygame.display.update()
         clock.tick(60)
-
+        print(clock.get_fps())
 
 # main menu
 def main_menu():
