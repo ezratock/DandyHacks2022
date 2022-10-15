@@ -22,10 +22,12 @@ class Wall(Object):
         super().__init__(x, y)
         self.object = pygame.Rect(self.x-player.x, self.y-player.y, WALL_SIZE, WALL_SIZE)
         self.color = (128,128,128)
+        self.width = WALL_SIZE
+        self.height = WALL_SIZE
 
     def draw(self, surface):
-        self.object = pygame.Rect(self.x-player.x, self.y-player.y, WALL_SIZE, WALL_SIZE)
-        pygame.draw.rect(surface, self.color, self.object)
-
-
-
+        pos_x = self.x-player.x
+        pos_y = self.y-player.y
+        if (pos_x >= - self.width and pos_x <= SCREEN_WIDTH and pos_y >= -self.height and pos_y <= SCREEN_HEIGHT):
+            self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
+            pygame.draw.rect(surface, self.color, self.object)

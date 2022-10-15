@@ -31,9 +31,6 @@ black = (0, 0, 0)
 
 pygame.init()
 
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
-
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 # Fill the background with black
@@ -102,20 +99,46 @@ def draw_level():
 
 # Run until the user asks to quit
 running = True
+left_pressed = False
+right_pressed = False
+up_pressed = False
+down_pressed = False
+j_pressed = False
+k_pressed = False
 while running:
     text_shown = ''
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         text_shown = right()
         player.right()
+        if not right_pressed:
+            player.direction = Direction.RIGHT
+            right_pressed = True
+    else:
+        right_pressed= False
     if pygame.key.get_pressed()[pygame.K_LEFT]:
         text_shown = left()
         player.left()
+        if not left_pressed:
+            player.direction = Direction.LEFT
+            left_pressed = True
+    else:
+        left_pressed = False
     if pygame.key.get_pressed()[pygame.K_UP]:
         text_shown = up()
         player.up()
+        if not up_pressed:
+            player.direction = Direction.UP
+            up_pressed = True
+    else:
+        up_pressed = False
     if pygame.key.get_pressed()[pygame.K_DOWN]:
         text_shown = down()
         player.down()
+        if not down_pressed:
+            player.direction = Direction.DOWN
+            down_pressed = True
+    else:
+        down_pressed = False
     if pygame.key.get_pressed()[pygame.K_j]:
         text_shown = action()
     if pygame.key.get_pressed()[pygame.K_k]:
