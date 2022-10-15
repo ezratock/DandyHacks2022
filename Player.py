@@ -1,12 +1,15 @@
 from enum import Enum
-from Setup import *
 import platform
 import pygame
+from Setup import *
 
 FRICTION = 0.9
 SPEED = 1
 
+#SHOULD BE IN SETUP.PY
 system_nav = "/" if platform.system() == 'Darwin' else "\\"
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 
 images = ["slime-v01-right.png", "slime-v01-left.png", "slime-v01-down.png", "slime-v01-up.png"]
 
@@ -24,16 +27,16 @@ class Player:
         self.y = 0
         self.velocity_x = 0
         self.velocity_y = 0
-        self.direction = Direction.UP;
-        self.update_image(3);
+        self.direction = Direction.UP
+        self.update_image(3)
 
     def draw(self, screen):
         self.velocity_y *= FRICTION
         self.velocity_x *= FRICTION
         self.x += self.velocity_x
         self.y += self.velocity_y
-        img = pygame.image.load(self.image).convert()
-        screen.blit(img, (0, 0))
+        img = pygame.image.load(self.image)
+        screen.blit(img, (SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32))
 
     def right(self):
         if self.direction == Direction.RIGHT:
