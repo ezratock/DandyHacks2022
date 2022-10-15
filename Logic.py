@@ -34,3 +34,7 @@ class Node(Object, ABC):
         # read next state of self node
         self.state = self.state_next
 
+class Wire(Node):
+    def __init__(self, x, y, node_out, shape):
+        super.__init__(x, y, node_out)
+        self.shape = shape
