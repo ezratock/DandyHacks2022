@@ -1,4 +1,7 @@
 import pygame
+from Object import *
+from Player import *
+from Setup import *
 
 def left():
     return 'left'
@@ -27,10 +30,10 @@ black = (0, 0, 0)
 
 pygame.init()
 
-X = 500
-Y = 500
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 500
 
-screen = pygame.display.set_mode([X, Y])
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 # Fill the background with black
 screen.fill(black)
@@ -41,15 +44,15 @@ pygame.display.set_caption(game_name)
 font = pygame.font.Font('freesansbold.ttf', 32)
 start_text = font.render('START', True, black, green)
 options_text = font.render('OPTIONS', True, white)
-start_location = (X - start_text.get_width())/2,(Y - start_text.get_height())/2
-options_location = (X - start_text.get_width())/2,(3*(Y - start_text.get_height()))/2 
+start_location = (SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2
+options_location = (SCREEN_WIDTH - start_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - start_text.get_height())) / 2
 
 def start_game():
     text = font.render(game_name, True, white)
     start_text = font.render('START', True, black, green)
     options_text = font.render('OPTIONS', True, white)
-    screen.blit(text, ((X - text.get_width())/2,(Y - text.get_height())/4))
-    screen.blit(start_text, ((X - text.get_width())/2,(Y - text.get_height())/2))
+    screen.blit(text, ((SCREEN_WIDTH - text.get_width()) / 2, (SCREEN_HEIGHT - text.get_height()) / 4))
+    screen.blit(start_text, ((SCREEN_WIDTH - text.get_width()) / 2, (SCREEN_HEIGHT - text.get_height()) / 2))
 
 start_game()
 #main menu
@@ -87,44 +90,46 @@ while not game_started:
 
 screen.fill(white)
 
+objects = []
+objects.append(Wall(100,100))
+
+
 # Run until the user asks to quit
 running = True
 while running:
-    
     text_shown = ''
-    
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         text_shown = right()
-
+        player.x += 1
     if pygame.key.get_pressed()[pygame.K_LEFT]:
         text_shown = left()
-
+        player.x -= 1
     if pygame.key.get_pressed()[pygame.K_UP]:
         text_shown = up()
-
+        player.y -= 1
     if pygame.key.get_pressed()[pygame.K_DOWN]:
         text_shown = down()
-
+        player.y += 1
     if pygame.key.get_pressed()[pygame.K_j]:
         text_shown = action()
-
     if pygame.key.get_pressed()[pygame.K_k]:
         text_shown = cancel()
- 
+
     # 1st parameter is the font file
     # 2nd parameter is size of the font
     font = pygame.font.Font('freesansbold.ttf', 32)
-
     text = font.render(text_shown, True, green, blue)
- 
     # create a rectangular object for the
     # text surface object
     textRect = text.get_rect()
- 
     # set the center of the rectangular object.
-    textRect.center = (X // 2, Y // 2)
+    textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
 
     screen.fill(white)
+
+    for object in objects:
+        object.draw(screen)
 
     screen.blit(text, textRect)
 
