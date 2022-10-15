@@ -1,18 +1,36 @@
-import pygame
-import os
+from abc import ABC
 
-#logic tickrate, # ticks per second
+import pygame
+from Object import *
+import os
+import abc
+
+# logic tickrate, # ticks per second
 LOGIC_TICKRATE = 1
 
-class Logic:
 
-    def __init__(self, node_in):
-        self.node_in = node_in
-        self.active = False
-        self.next_state = False
+class Node(Object, ABC):
 
-    def active(self):
-        return self.active
+    def __init__(self, x, y, node_out):
+        super.__init__(x, y)
+        self.node_out = node_out
+        self.state = False
+        self.state_next = False
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, new_state):
+        self.state = new_state
+
+    def set_state_next(self, new_state_next):
+        self.state_next = new_state_next
 
     def logic_tick(self):
-        self.active = self.next_state
+
+        # write next state of output node
+        self.node_out.set_state_next(self.state)
+
+        # read next state of self node
+        self.state = self.state_next
+
