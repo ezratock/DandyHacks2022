@@ -4,24 +4,6 @@ from Player import *
 from Setup import *
 import os
 
-def left():
-    return 'left'
-
-def right():
-    return 'right'
-
-def up():
-    return 'up'
-
-def down():
-    return 'down'
-
-def action():
-    return 'action'
-
-def cancel():
-    return 'cancel'
-
 white = (255, 255, 255)
 green = (0, 255, 0)
 blue = (0, 0, 255)
@@ -143,9 +125,7 @@ down_pressed = False
 j_pressed = False
 k_pressed = False
 while running:
-    text_shown = ''
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        text_shown = right()
         player.right()
         if not right_pressed:
             player.direction = Direction.RIGHT
@@ -153,7 +133,6 @@ while running:
     else:
         right_pressed= False
     if pygame.key.get_pressed()[pygame.K_LEFT]:
-        text_shown = left()
         player.left()
         if not left_pressed:
             player.direction = Direction.LEFT
@@ -161,7 +140,6 @@ while running:
     else:
         left_pressed = False
     if pygame.key.get_pressed()[pygame.K_UP]:
-        text_shown = up()
         player.up()
         if not up_pressed:
             player.direction = Direction.UP
@@ -169,7 +147,6 @@ while running:
     else:
         up_pressed = False
     if pygame.key.get_pressed()[pygame.K_DOWN]:
-        text_shown = down()
         player.down()
         if not down_pressed:
             player.direction = Direction.DOWN
@@ -181,24 +158,12 @@ while running:
     if pygame.key.get_pressed()[pygame.K_k]:
         text_shown = cancel()
 
-    # 1st parameter is the font file
-    # 2nd parameter is size of the font
-    font = pygame.font.Font('freesansbold.ttf', 32)
-    text = font.render(text_shown, True, green, blue)
-    # create a rectangular object for the
-    # text surface object
-    textRect = text.get_rect()
-    # set the center of the rectangular object.
-    textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-
     draw_level()
 
     player.draw(screen)
 
     for object in objects:
         object.draw(screen)
-
-    screen.blit(text, textRect)
 
     # Did the user click the window close button?
     for event in pygame.event.get():

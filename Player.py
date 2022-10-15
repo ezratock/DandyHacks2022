@@ -11,7 +11,7 @@ system_nav = "/" if platform.system() == 'Darwin' else "\\"
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 
-images = ["slime-v01-right.png", "slime-v01-left.png", "slime-v01-down.png", "slime-v01-up.png"]
+images = ["slime-right.png", "slime-left.png", "slime-down.png", "slime-up.png"]
 
 class Direction(Enum):
     NONE = 0
@@ -59,6 +59,6 @@ class Player:
             self.update_image(3)
 
     def update_image(self, direction):
-        self.image = "src" + system_nav + images[direction]
+        self.image = "src" + system_nav + "slime" + system_nav + images[direction]
         # self.image = "Users/ezra/Documents/DandyHacks2022/src/slime-v01-right.png"
         # print(self.image)
