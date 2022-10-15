@@ -103,7 +103,6 @@ def draw_level():
 # Run until the user asks to quit
 running = True
 while running:
-    draw_level()
     text_shown = ''
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
         text_shown = right()
@@ -132,12 +131,10 @@ while running:
     # set the center of the rectangular object.
     textRect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
-
-    # screen.fill(white)
-
     player.update()
 
-    # screen.fill(white)
+    draw_level()
+
     for object in objects:
         object.draw(screen)
 
