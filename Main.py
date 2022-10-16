@@ -85,6 +85,7 @@ def run_game():
     up_pressed = False
     down_pressed = False
     running = True
+    game_finished = False
 
     while running:
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
