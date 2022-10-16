@@ -135,7 +135,9 @@ def run_game():
         if pygame.key.get_pressed()[pygame.K_j]:
             # add method here
             if not j_pressed:
-                # add action here
+                tile = tile_in_front(player.direction)
+                if isinstance(tile, Button):
+                    tile.toggle()
                 j_pressed = True
         else:
             j_pressed = False
@@ -156,13 +158,10 @@ def run_game():
             frame_count = 0
             for row in map:
                 for obj in row:
-                    try:
+                    if isinstance(obj, Node):
                         obj.logic_tick()
-                        obj.draw(screen)
-                    except AttributeError:
-                        pass
-        else:
-            draw_map(screen)
+                    if isinstance(obj, list):
+                        obj[1].logic_tick()
 
         draw_map(screen)
         player.draw(screen)
