@@ -11,6 +11,8 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
+dark_green = (0, 100, 0)
+yellow =  (255, 255, 0)
 font_path = "PublicPixel-z84yD.ttf"
 
 pygame.init()
@@ -26,26 +28,31 @@ pygame.display.set_caption(game_name)
 font = pygame.font.Font(font_path, 40)
 title = font.render(game_name, True, white)
 start_text = font.render('START', True, green)
+continue_text = font.render('CONTINUE', True, green)
 options_text = font.render('OPTIONS', True, white)
 title_location = ((SCREEN_WIDTH - title.get_width()) / 2, (SCREEN_HEIGHT - title.get_height()) / 4)
 start_location = ((SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2)
+continue_location = ((SCREEN_WIDTH - continue_text.get_width()) / 2, (SCREEN_HEIGHT - continue_text.get_height()) / 2)
 options_location = (
 (SCREEN_WIDTH - options_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - options_text.get_height())) / 4)
 
 clock = pygame.time.Clock()
 
 
-def start_game(on_Start):
+def start_game(on_Start, game_status):
     screen.fill(black)
     if not on_Start:
-        start_text = font.render('START', True, green)
+        start_continue_text = font.render(game_status, True, green)
         options_text = font.render('OPTIONS', True, white)
     elif on_Start:
-        start_text = font.render('START', True, white)
+        start_continue_text = font.render(game_status, True, white)
         options_text = font.render('OPTIONS', True, green)
 
     screen.blit(title, title_location)
-    screen.blit(start_text, start_location)
+    if game_status == 'START':
+        screen.blit(start_continue_text, start_location)
+    if game_status == 'CONTINUE':
+        screen.blit(start_continue_text, continue_location)
     screen.blit(options_text, options_location)
     pygame.display.update()
 
@@ -74,11 +81,13 @@ def run_game():
     left_pressed = False
     up_pressed = False
     down_pressed = False
+    game_finished = False
+    game_won = False
 
     while running:
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            start_game(False)
-            main_menu()
+            start_game(False, 'CONTINUE')
+            main_menu(True)
 
         text_shown = ''
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
@@ -166,17 +175,32 @@ def run_game():
         clock.tick(60)
 
         #print(clock.get_fps())
+    if not game_finished:
+        text_display(('YOU QUIT...', 'THE GAME'), red, red)
+        time.sleep(2)
+        pygame.quit()
+        quit()
+    elif game_won:
+        text_display(('WINNER! WINNER!', 'CHICKEN DINNER!'), green, green)
+        time.sleep(60)
+        pygame.quit()
+        quit()
+    elif not game_won:
+        text_display(('YOU LOST...', 'THE GAME'), red, red)
+        time.sleep(60)
+        pygame.quit()
+        quit()
 
 # main menu
-def main_menu():
-    game_started = False
-    on_Start = True
+def main_menu(game_started):
+    game_running = False
+    on_start = True
     up_pressed = False
     down_pressed = False
-    while not game_started:
+    while not game_running:
         if pygame.key.get_pressed()[pygame.K_RETURN]:
-            if on_Start:
-                game_started = True
+            if on_start:
+                game_running = True
             else:
                 options_running = True
                 screen.fill(black)
@@ -203,7 +227,10 @@ def main_menu():
 
                 while options_running:
                     if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                        start_game(not on_Start)
+                        if not game_started:
+                            start_game(not on_start, 'START')
+                        elif game_started:
+                            start_game(not on_start, 'CONTINUE')
                         options_running = False
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -212,16 +239,22 @@ def main_menu():
         pygame.display.update()
         if pygame.key.get_pressed()[pygame.K_UP]:
             if not up_pressed:
-                start_game(on_Start)
-                on_Start = not on_Start
+                if not game_started:
+                    start_game(on_start, 'START')
+                elif game_started:
+                    start_game(on_start, 'CONTINUE')
+                on_start = not on_start
                 up_pressed = True
         else:
             up_pressed = False
 
         if pygame.key.get_pressed()[pygame.K_DOWN]:
             if not down_pressed:
-                start_game(on_Start)
-                on_Start = not on_Start
+                if not game_started:
+                    start_game(on_start, 'START')
+                elif game_started:
+                    start_game(on_start, 'CONTINUE')
+                on_start = not on_start
                 down_pressed = True
         else:
             down_pressed = False
@@ -233,10 +266,35 @@ def main_menu():
                 quit()
     run_game()
 
+def text_display(phrase, text_color1, text_color2):
+    screen.fill(black)
+    font = pygame.font.Font(font_path, 40)
+    h = 0
+    for word in phrase:
+        words = word.split(" ")
+        word1 = words[0]
+        word2 = words[1]
+        end_title1 = font.render(word1, True, text_color1)
+        end_title2 = font.render(word2, True, text_color2)
+        combined_title = font.render(word, True, text_color1)
+        x = 2 * (screen.get_width() - end_title1.get_width() - end_title2.get_width())/5
+        screen.blit(end_title1, ((SCREEN_WIDTH - combined_title.get_width())/2, (SCREEN_HEIGHT - end_title1.get_height())/(3 - h)))
+        pygame.display.update()
+        time.sleep(0.50)
+        screen.blit(end_title2, ((SCREEN_WIDTH - combined_title.get_width())/2 + combined_title.get_width() - end_title2.get_width(), (SCREEN_HEIGHT - end_title1.get_height())/(3 - h)))
+        pygame.display.update()
+        time.sleep(1)
+        h += 1
+
+
+
+
+
 def main():
-    screen.fill(white)
-    start_game(False)
-    main_menu()
+    text_display(('M&T BANK...', 'THE GAME'), dark_green, yellow)
+    time.sleep(2)
+    start_game(False, 'START')
+    main_menu(False)
 
 
 main()
