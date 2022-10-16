@@ -57,14 +57,14 @@ def start_game(on_Start, game_status):
     screen.blit(options_text, options_location)
     pygame.display.update()
 
-'''
-objects = []
-objects.append(Wall(64, 128))
-objects.append(Wall(128, 64))
-objects.append(Wire(768, 320, None, 'lr'))
-objects.append(Wire(768-64*1, 320, objects[2], 'lr'))
-objects.append(Wire(768-64*2, 320, objects[3], 'lr'))
-objects.append(Pad(768-64*3, 320, objects[4]))'''
+
+# objects = []
+# objects.append(Wall(64, 128))
+# objects.append(Wall(128, 64))
+# objects.append(Wire(768, 320, None, 'lr'))
+# objects.append(Wire(768-64*1, 320, objects[2], 'lr'))
+# objects.append(Wire(768-64*2, 320, objects[3], 'lr'))
+# objects.append(Pad(768-64*3, 320, objects[4]))
 
 lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
 
@@ -154,15 +154,15 @@ def run_game():
 
         if frame_count >= 60:
             frame_count = 0
-        #     for obj in objects:
-        #         try:
-        #             obj.logic_tick()
-        #         except AttributeError:
-        #             pass
-        #         obj.draw(screen)
-        # else:
-        #     for obj in objects:
-        #         obj.draw(screen)
+            for row in map:
+                for obj in row:
+                    try:
+                        obj.logic_tick()
+                        obj.draw(screen)
+                    except AttributeError:
+                        pass
+        else:
+            draw_map(screen)
 
         draw_map(screen)
         player.draw(screen)
