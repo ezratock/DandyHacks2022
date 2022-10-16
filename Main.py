@@ -6,6 +6,7 @@ from Logic import *
 from LoadPlayer import *
 from Map import *
 import os
+import time
 
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -13,8 +14,9 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
 dark_green = (0, 100, 0)
-yellow =  (255, 255, 0)
+yellow = (255, 255, 0)
 font_path = "PublicPixel-z84yD.ttf"
+FPS = 60
 
 pygame.init()
 
@@ -29,82 +31,99 @@ pygame.display.set_caption(game_name)
 font = pygame.font.Font(font_path, 40)
 title = font.render(game_name, True, white)
 start_text = font.render('START', True, green)
+continue_text = font.render('CONTINUE', True, green)
 options_text = font.render('OPTIONS', True, white)
 title_location = ((SCREEN_WIDTH - title.get_width()) / 2, (SCREEN_HEIGHT - title.get_height()) / 4)
 start_location = ((SCREEN_WIDTH - start_text.get_width()) / 2, (SCREEN_HEIGHT - start_text.get_height()) / 2)
+continue_location = ((SCREEN_WIDTH - continue_text.get_width()) / 2, (SCREEN_HEIGHT - continue_text.get_height()) / 2)
 options_location = (
     (SCREEN_WIDTH - options_text.get_width()) / 2, (3 * (SCREEN_HEIGHT - options_text.get_height())) / 4)
 
 clock = pygame.time.Clock()
 
-def start_game(on_Start):
+def start_game(on_Start, game_status):
     screen.fill(black)
     if not on_Start:
-        start_text = font.render('START', True, black, green)
+        start_continue_text = font.render(game_status, True, green)
         options_text = font.render('OPTIONS', True, white)
     elif on_Start:
-        start_text = font.render('START', True, white)
-        options_text = font.render('OPTIONS', True, black, green)
+        start_continue_text = font.render(game_status, True, white)
+        options_text = font.render('OPTIONS', True, green)
 
     screen.blit(title, title_location)
-    screen.blit(start_text, start_location)
+    if game_status == 'START':
+        screen.blit(start_continue_text, start_location)
+    if game_status == 'CONTINUE':
+        screen.blit(start_continue_text, continue_location)
     screen.blit(options_text, options_location)
     pygame.display.update()
 
-#main menu
-def main_menu():
-    game_started = False
-    on_Start = True
+# main menu
+def main_menu(game_started):
+    game_running = False
+    on_start = True
     up_pressed = False
     down_pressed = False
-    while not game_started:
-        onStart = True
+    while not game_running:
         if pygame.key.get_pressed()[pygame.K_RETURN]:
-            if on_Start:
-                game_started = True
+            if on_start:
+                game_running = True
             else:
                 options_running = True
                 screen.fill(black)
-                escape_font = pygame.font.SysFont('freesansbold', 20)
-                text = escape_font.render("Press Esc to go back to main menu.", True, green)
-                height_difference = SCREEN_HEIGHT / 7
-                screen.blit(text, (SCREEN_WIDTH/20,height_difference * 1/4 ))
-                options_font = pygame.font.SysFont('freesansbold', 32)
+                escape_font = pygame.font.Font(font_path, 12)
+                text = escape_font.render("(Press Esc to go back to main menu)", True, green)
+                height_difference = SCREEN_HEIGHT / 8
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1 / 4))
+                options_font = pygame.font.Font(font_path, 20)
                 text = options_font.render("Arrow Key Up: moves character up.", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 1))
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1))
                 text = options_font.render("Arrow Key Down: moves character down.", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 2))
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 2))
                 text = options_font.render("Arrow Key Right: moves character right.", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 3))
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 3))
                 text = options_font.render("Arrow Key Left: moves character left.", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 4))
-                text = options_font.render("T Key: action key", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 5))
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 4))
+                text = options_font.render("T Key: action key.", True, white)
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 5))
                 text = options_font.render("K Key: cancel key.", True, white)
-                screen.blit(text, (SCREEN_WIDTH/20, height_difference * 6))
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 6))
+                text = options_font.render("Esc Key: go back to the main menu.", True, white)
+                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 7))
                 pygame.display.update()
 
                 while options_running:
                     if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                        start_game(True)
+                        if not game_started:
+                            start_game(not on_start, 'START')
+                        elif game_started:
+                            start_game(not on_start, 'CONTINUE')
                         options_running = False
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
+                            text_display(('YOU QUIT...', 'THE GAME'), red, red)
+                            time.sleep(2)
                             pygame.quit()
                             quit()
         pygame.display.update()
         if pygame.key.get_pressed()[pygame.K_UP]:
             if not up_pressed:
-                start_game(on_Start)
-                on_Start = not on_Start
+                if not game_started:
+                    start_game(on_start, 'START')
+                elif game_started:
+                    start_game(on_start, 'CONTINUE')
+                on_start = not on_start
                 up_pressed = True
         else:
             up_pressed = False
 
         if pygame.key.get_pressed()[pygame.K_DOWN]:
             if not down_pressed:
-                start_game(on_Start)
-                on_Start = not on_Start
+                if not game_started:
+                    start_game(on_start, 'START')
+                elif game_started:
+                    start_game(on_start, 'CONTINUE')
+                on_start = not on_start
                 down_pressed = True
         else:
             down_pressed = False
@@ -112,12 +131,13 @@ def main_menu():
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                text_display(('YOU QUIT...', 'THE GAME'), red, red)
+                time.sleep(2)
                 pygame.quit()
                 quit()
+    run_game()
 
-screen.fill(white)
-start_game(False)
-main_menu()
+
 def start_game(on_Start, game_status):
     screen.fill(black)
     if not on_Start:
@@ -258,7 +278,7 @@ def run_game():
 
         # updates screen with changes based on user input
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(FPS)
 
         #print(clock.get_fps())
     if not game_finished:
@@ -276,85 +296,6 @@ def run_game():
         time.sleep(60)
         pygame.quit()
         quit()
-
-# main menu
-def main_menu(game_started):
-    game_running = False
-    on_start = True
-    up_pressed = False
-    down_pressed = False
-    while not game_running:
-        if pygame.key.get_pressed()[pygame.K_RETURN]:
-            if on_start:
-                game_running = True
-            else:
-                options_running = True
-                screen.fill(black)
-                escape_font = pygame.font.Font(font_path, 12)
-                text = escape_font.render("(Press Esc to go back to main menu)", True, green)
-                height_difference = SCREEN_HEIGHT / 8
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1 / 4))
-                options_font = pygame.font.Font(font_path, 20)
-                text = options_font.render("Arrow Key Up: moves character up.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 1))
-                text = options_font.render("Arrow Key Down: moves character down.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 2))
-                text = options_font.render("Arrow Key Right: moves character right.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 3))
-                text = options_font.render("Arrow Key Left: moves character left.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 4))
-                text = options_font.render("T Key: action key.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 5))
-                text = options_font.render("K Key: cancel key.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 6))
-                text = options_font.render("Esc Key: go back to the main menu.", True, white)
-                screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 7))
-                pygame.display.update()
-
-                while options_running:
-                    if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                        if not game_started:
-                            start_game(not on_start, 'START')
-                        elif game_started:
-                            start_game(not on_start, 'CONTINUE')
-                        options_running = False
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            text_display(('YOU QUIT...', 'THE GAME'), red, red)
-                            time.sleep(2)
-                            pygame.quit()
-                            quit()
-        pygame.display.update()
-        if pygame.key.get_pressed()[pygame.K_UP]:
-            if not up_pressed:
-                if not game_started:
-                    start_game(on_start, 'START')
-                elif game_started:
-                    start_game(on_start, 'CONTINUE')
-                on_start = not on_start
-                up_pressed = True
-        else:
-            up_pressed = False
-
-        if pygame.key.get_pressed()[pygame.K_DOWN]:
-            if not down_pressed:
-                if not game_started:
-                    start_game(on_start, 'START')
-                elif game_started:
-                    start_game(on_start, 'CONTINUE')
-                on_start = not on_start
-                down_pressed = True
-        else:
-            down_pressed = False
-
-        pygame.display.update()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                text_display(('YOU QUIT...', 'THE GAME'), red, red)
-                time.sleep(2)
-                pygame.quit()
-                quit()
-    run_game()
 
 def text_display(phrase, text_color1, text_color2):
     screen.fill(black)
@@ -380,8 +321,8 @@ def text_display(phrase, text_color1, text_color2):
 
 def main():
     text_display(('M&T BANK...', 'THE GAME'), dark_green, yellow)
-    load_map_data()
-    # time.sleep(2)
+    # load_map_data()
+    time.sleep(2)
     start_game(False, 'START')
     main_menu(False)
 
