@@ -28,11 +28,7 @@ class Node(Object, ABC):
         self.state_next = new_state_next
 
     def logic_tick(self):
-        # write next state of output node
-        self.node_out.set_state_next(self.state)
-    
-        # read next state of self node
-        self.state = self.state_next
+        pass
 
 
 class Wire(Node):
@@ -45,13 +41,20 @@ class Wire(Node):
         self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
 
     def logic_tick(self):
-        super().logic_tick()
         if self.state:
             self.filenames = [f'wire-{c}-on.png' for c in self.shape]
             self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
         else:
             self.filenames = [f'wire-{c}-off.png' for c in self.shape]
             self.tex = [pygame.image.load(os.path.join('src', 'wires', name)) for name in self.filenames]
+
+
+
+        # write next state of output node
+        self.node_out.set_state_next(True)
+
+        # read next state of self node
+        self.state = self.state_next
 
     def draw(self, surface):
         pos_x = self.x - player.x
@@ -68,12 +71,23 @@ class Pad(Node):
         self.texture = pygame.image.load(os.path.join('src', 'objects', 'button-up.png'))
 
     def update(self, state):
-        if state:  # state == true -> button down
+        if state:  # state == True -> button down
             self.set_state(state)
             self.texture = pygame.image.load(os.path.join('src', 'objects', 'button-down.png'))
         else:
             self.set_state(state)
             self.texture = pygame.image.load(os.path.join('src', 'objects', 'button-up.png'))
+
+    def logic_tick(self):
+        self.node_out.set_state(True)
+        self.node_out.set_state_next(True)
+
+    def draw(self, surface):
+        if player.x - self.x + SCREEN_WIDTH // 2 == 0 and player.y - self.y + SCREEN_HEIGHT // 2 == 0:
+            self.update(True)
+        else:
+            self.update(False)
+        super().draw(surface)
 
 
 class Osc(Pad):
