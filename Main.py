@@ -235,6 +235,8 @@ def main_menu(game_started):
                         options_running = False
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
+                            text_display(('YOU QUIT...', 'THE GAME'), red, red)
+                            time.sleep(2)
                             pygame.quit()
                             quit()
         pygame.display.update()
@@ -263,6 +265,8 @@ def main_menu(game_started):
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                text_display(('YOU QUIT...', 'THE GAME'), red, red)
+                time.sleep(2)
                 pygame.quit()
                 quit()
     run_game()
