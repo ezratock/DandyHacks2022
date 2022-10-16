@@ -11,4 +11,3 @@ class Direction(Enum):
     LEFT = 2
     DOWN = 3
     UP = 4
-
