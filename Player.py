@@ -29,8 +29,9 @@ class Player:
         self.update_image(3)
 
     def draw(self, screen):
-        img = pygame.image.load(self.image)
-        screen.blit(img, (SCREEN_WIDTH/2 - 32, SCREEN_HEIGHT/2 - 32))
+        img = pygame.transform.scale(pygame.image.load(self.image),(48,48))
+        #img = pygame.image.load(self.image)
+        screen.blit(img, (SCREEN_WIDTH/2 - 24, SCREEN_HEIGHT/2 - 32))
 
     def right(self):
         self.x += SPEED
