@@ -148,7 +148,7 @@ def run_game():
                     obj.logic_tick()
                 except AttributeError:
                     pass
-                # obj.draw(screen)
+                obj.draw(screen)
         else:
             for obj in objects:
                 obj.draw(screen)
