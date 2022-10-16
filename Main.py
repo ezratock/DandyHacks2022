@@ -192,14 +192,18 @@ def run_game():
         quit()
     elif game_won:
         text_display(('WINNER! WINNER!', 'CHICKEN DINNER!'), green, green)
-        time.sleep(60)
-        pygame.quit()
-        quit()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
     elif not game_won:
         text_display(('YOU LOST...', 'THE GAME'), red, red)
-        time.sleep(60)
-        pygame.quit()
-        quit()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
 
 # main menu
 def main_menu(game_started):
