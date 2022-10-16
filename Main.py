@@ -66,6 +66,7 @@ def draw_level():
 
 # Run until the user asks to quit
 def run_game():
+    frame_count = 0
     running = True
     j_pressed = False
     k_pressed = False
@@ -137,8 +138,21 @@ def run_game():
             k_pressed = False
 
         draw_level()
-        for obj in objects:
-            obj.draw(screen)
+
+        frame_count += 1
+
+        if frame_count >= 60:
+            frame_count = 0
+            for obj in objects:
+                try:
+                    obj.logic_tick()
+                except AttributeError:
+                    pass
+                # obj.draw(screen)
+        else:
+            for obj in objects:
+                obj.draw(screen)
+
         player.draw(screen)
 
 
@@ -150,7 +164,8 @@ def run_game():
         # updates screen with changes based on user input
         pygame.display.update()
         clock.tick(60)
-        print(clock.get_fps())
+
+        #print(clock.get_fps())
 
 # main menu
 def main_menu():
