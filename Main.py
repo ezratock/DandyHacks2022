@@ -197,7 +197,7 @@ def main_menu():
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 5))
                 text = options_font.render("K Key: cancel key.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 6))
-                text = options_font.render("Esc Key: quit the game.", True, white)
+                text = options_font.render("Esc Key: go back to the main menu.", True, white)
                 screen.blit(text, (SCREEN_WIDTH / 20, height_difference * 7))
                 pygame.display.update()
 
