@@ -3,6 +3,7 @@ from Setup import *
 import platform
 import pygame
 import math
+import os
 
 SPEED = 4
 START_X = 512
