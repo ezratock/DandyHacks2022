@@ -1,5 +1,5 @@
 import os
 import platform
 
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_WIDTH = 1088
+SCREEN_HEIGHT = 832
