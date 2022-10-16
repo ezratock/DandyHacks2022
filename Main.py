@@ -53,9 +53,10 @@ def start_game(on_Start):
 objects = []
 objects.append(Wall(64, 128))
 objects.append(Wall(128, 64))
-objects.append(Wire(320, 320, None, 'ru'))
-objects.append(Osc(384, 384, Door()))
-
+objects.append(Wire(768, 320, None, 'lr'))
+objects.append(Wire(768-64*1, 320, objects[2], 'lr'))
+objects.append(Wire(768-64*2, 320, objects[3], 'lr'))
+objects.append(Pad(768-64*3, 320, objects[4]))
 
 lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
 
