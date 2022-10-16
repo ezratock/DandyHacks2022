@@ -1,15 +1,12 @@
 from enum import Enum
+from Setup import *
 import platform
 import pygame
-from Setup import *
 import math
 
 SPEED = 4
-
-#SHOULD BE IN SETUP.PY
-system_nav = "/" if platform.system() == 'Darwin' else "\\"
-SCREEN_WIDTH = 1088
-SCREEN_HEIGHT = 832
+START_X = 512
+START_Y = 384
 
 images = ["slime-right.png", "slime-left.png", "slime-down.png", "slime-up.png"]
 
@@ -23,8 +20,8 @@ class Direction(Enum):
 
 class Player:
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.x = START_X
+        self.y = START_Y
         self.direction = Direction.UP
         self.update_image(3)
 
@@ -54,6 +51,6 @@ class Player:
 
 
     def update_image(self, direction):
-        self.image = "src" + system_nav + "slime" + system_nav + images[direction]
+        self.image = os.path.join("src", "slime", images[direction])
         # self.image = "Users/ezra/Documents/DandyHacks2022/src/slime-v01-right.png"
         # print(self.image)

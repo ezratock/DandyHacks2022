@@ -2,6 +2,7 @@ import abc
 import pygame
 import os
 from Setup import *
+from LoadPlayer import *
 
 # from Main import player
 
@@ -23,8 +24,9 @@ class Object:
         self.texture = None
 
     def draw(self, surface):
-        pos_x = self.x - player.x
-        pos_y = self.y - player.y
+        # Offset because player position is (512, 384) on the screen relative to top left corner
+        pos_x = self.x - player.x + 512
+        pos_y = self.y - player.y + 384
         if -self.width <= pos_x <= SCREEN_WIDTH and -self.height <= pos_y <= SCREEN_HEIGHT:
             self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
             if self.texture is not None:
@@ -34,12 +36,12 @@ class Object:
 
 
 class Wall(Object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, is_base):
         super().__init__(x, y)
         self.color = (128, 128, 128)
         self.width = WALL_SIZE
         self.height = WALL_SIZE
-        self.texture = pygame.image.load(os.path.join('src', 'textures', 'Wall-base-64px-1.png'))
+        self.texture = pygame.image.load(os.path.join('src', 'textures', 'Wall-base-64px-1.png' if is_base else 'Wall-64px-1.png'))
 
 
 class Box(Object):
