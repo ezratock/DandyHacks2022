@@ -22,6 +22,7 @@ class Object:
 
         # default texture = None -> black square
         self.texture = None
+        self.wall = False
 
     def draw(self, surface):
         # Offset because player position is (512, 384) on the screen relative to top left corner
@@ -42,6 +43,7 @@ class Wall(Object):
         self.width = WALL_SIZE
         self.height = WALL_SIZE
         self.texture = pygame.image.load(os.path.join('src', 'textures', 'Wall-base-64px-1.png' if is_base else 'Wall-64px-1.png'))
+        self.wall = True
 
 
 class Box(Object):

@@ -1,4 +1,3 @@
-from enum import Enum
 from Setup import *
 import platform
 import pygame
@@ -10,13 +9,6 @@ START_X = 512
 START_Y = 384
 
 images = ["slime-right.png", "slime-left.png", "slime-down.png", "slime-up.png"]
-
-class Direction(Enum):
-    NONE = 0
-    RIGHT = 1
-    LEFT = 2
-    DOWN = 3
-    UP = 4
 
 
 class Player:

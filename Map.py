@@ -38,3 +38,17 @@ def draw_map(surface):
             if row < len(map) and col < len(map[0]):
                 if isinstance(map[row][col], Object):
                     map[row][col].draw(surface)
+
+def collision(dir):
+    if dir == Direction.RIGHT:
+        tile = map[int(player.y/64)][int(player.x/64)+1]
+    if dir == Direction.LEFT:
+        tile = map[int(player.y/64)][int(player.x/64 + 0.99999) - 1]
+    if dir == Direction.UP:
+        tile = map[int(player.y/64 + 0.99999) - 1][int(player.x/64)]
+    if dir == Direction.DOWN:
+        tile = map[int(player.y/64)+1][int(player.x/64)]
+
+    if isinstance(tile, Object):
+        return tile.wall
+    return False

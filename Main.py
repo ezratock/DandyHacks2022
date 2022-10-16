@@ -93,7 +93,7 @@ def run_game():
 
         text_shown = ''
         if pygame.key.get_pressed()[pygame.K_RIGHT]:
-            if (player.on_grid() and not right_pressed) or player.direction == Direction.RIGHT:
+            if ((player.on_grid() and not right_pressed) or player.direction == Direction.RIGHT) and not collision(Direction.RIGHT):
                 player.direction = Direction.RIGHT
                 player.right()
                 right_pressed = True
@@ -103,7 +103,7 @@ def run_game():
                 player.right()
 
         if pygame.key.get_pressed()[pygame.K_LEFT]:
-            if (player.on_grid() and not left_pressed) or player.direction == Direction.LEFT:
+            if ((player.on_grid() and not left_pressed) or player.direction == Direction.LEFT) and not collision(Direction.LEFT):
                 player.direction = Direction.LEFT
                 player.left()
                 left_pressed = True
@@ -113,7 +113,7 @@ def run_game():
                 player.left()
 
         if pygame.key.get_pressed()[pygame.K_UP]:
-            if (player.on_grid() and not up_pressed) or player.direction == Direction.UP:
+            if ((player.on_grid() and not up_pressed) or player.direction == Direction.UP) and not collision(Direction.UP):
                 player.direction = Direction.UP
                 player.up()
                 up_pressed = True
@@ -123,7 +123,7 @@ def run_game():
                 player.up()
 
         if pygame.key.get_pressed()[pygame.K_DOWN]:
-            if (player.on_grid() and not down_pressed) or player.direction == Direction.DOWN:
+            if ((player.on_grid() and not down_pressed) or player.direction == Direction.DOWN) and not collision(Direction.DOWN):
                 player.direction = Direction.DOWN
                 player.down()
                 down_pressed = True
