@@ -202,8 +202,11 @@ def run_game():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
+                    if not game_finished:
+                        text_display(('YOU QUIT...', 'THE GAME'), red, red)
+                        time.sleep(2)
+                        pygame.quit()
+                        quit()
 
 # main menu
 def main_menu(game_started):
