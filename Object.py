@@ -52,3 +52,15 @@ class Box(Object):
         self.texture = pygame.image.load(os.path.join('src', 'objects', 'box.png'))
 
 
+class Win(Object):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+
+    def draw(self, surface):
+        pos_x = self.x - player.x + 512
+        pos_y = self.y - player.y + 384
+        self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
+        pygame.draw.rect(surface, (255, 192, 203), self.object)
+        if player.x == self.x and player.y == self.y:
+            game_won = True
+            running = False

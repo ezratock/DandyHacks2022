@@ -127,7 +127,33 @@ class Button(Node):
         self.state = not self.state
         self.update()
 
+class Door(Node):
+    def __init__(self, x, y, is_back):
+        super().__init__(x, y)
+        if is_back:
+            self.texture = pygame.image.load(os.path.join('src', 'textures', 'Door-base.png'))
+        else:
+            self.texture = pygame.image.load(os.path.join('src', 'textures', 'Door.png'))
+        self.state = False
 
+    def draw(self, surface):
+        for dir in [[0,1], [0,-1], [1,0], [-1,0]]:
+            adj_tile = map[int(self.y/64) + dir[1]][int(self.x/64) + dir[0]]
+            if isinstance(adj_tile, list):
+                self.state = adj_tile[1].state
+            elif isinstance(adj_tile, Node):
+                self.state = adj_tile.state
+
+        # Offset because player position is (512, 384) on the screen relative to top left corner
+        pos_x = self.x - player.x + 512
+        pos_y = self.y - player.y + 384
+        if -self.width <= pos_x <= SCREEN_WIDTH and -self.height <= pos_y <= SCREEN_HEIGHT:
+            if not self.state:
+                self.wall = True
+                self.object = pygame.Rect(pos_x, pos_y, self.width, self.height)
+                surface.blit(self.texture, self.object)
+            else:
+                self.wall = False
 
 
 # class Wire(Node):
@@ -198,11 +224,3 @@ class Button(Node):
 #     def logic_tick(self):
 #         super().logic_tick()
 #         self.update(not self.get_state())
-#
-#
-# class Door(Node):
-#     def __init__(self):
-#         pass
-#
-#     def logic_tick(self):
-#         pass

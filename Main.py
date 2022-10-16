@@ -1,5 +1,6 @@
 from cgi import print_arguments
 import pygame
+from LoadPlayer import *
 from Object import *
 from Player import *
 from Setup import *
@@ -14,6 +15,7 @@ blue = (0, 0, 255)
 black = (0, 0, 0)
 dark_green = (0, 100, 0)
 yellow = (255, 255, 0)
+beige = (245, 245, 220)
 font_path = "PublicPixel-z84yD.ttf"
 FPS = 60
 
@@ -70,21 +72,19 @@ lvl_bg = pygame.image.load(os.path.join('src', 'Test-01.png'))
 
 
 def draw_level():
-    screen.blit(lvl_bg, (0, 0))
-
+    # screen.blit(lvl_bg, (0, 0))
+    screen.fill(beige)
 
 # Run until the user asks to quit
 def run_game():
     frame_count = 0
-    running = True
     j_pressed = False
     k_pressed = False
     right_pressed = False
     left_pressed = False
     up_pressed = False
     down_pressed = False
-    game_finished = False
-    game_won = False
+    running = True
 
     while running:
         if pygame.key.get_pressed()[pygame.K_ESCAPE]:
@@ -165,6 +165,12 @@ def run_game():
 
         draw_map(screen)
         player.draw(screen)
+
+        if player.x == 1280 and player.y == 2112:
+            running = False
+            game_won = True
+            game_finished = True
+            time.sleep(0.3)
 
         # for object in objects:
         #     object.draw(screen)

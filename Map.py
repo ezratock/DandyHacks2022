@@ -37,6 +37,12 @@ def load_map_data():
                     line_arr.append(Wire(tile*64, line_index*(64), line[tile][1:]))
                 elif line[tile] == "U":
                     line_arr.append(Button(tile*64, line_index*(64)))
+                elif line[tile] == "D":
+                    line_arr.append(Door(tile*64, line_index*64, False))
+                elif line[tile] == "T":
+                    line_arr.append(Door(tile*64, line_index*64, False))
+                elif line[tile] == "*":
+                    line_arr.append(Win(tile*64, line_index*64))
                 else:
                     line_arr.append("")
             map[line_index] = line_arr
