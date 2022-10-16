@@ -138,24 +138,6 @@ def main_menu(game_started):
     run_game()
 
 
-def start_game(on_Start, game_status):
-    screen.fill(black)
-    if not on_Start:
-        start_continue_text = font.render(game_status, True, green)
-        options_text = font.render('OPTIONS', True, white)
-    elif on_Start:
-        start_continue_text = font.render(game_status, True, white)
-        options_text = font.render('OPTIONS', True, green)
-
-    screen.blit(title, title_location)
-    if game_status == 'START':
-        screen.blit(start_continue_text, start_location)
-    if game_status == 'CONTINUE':
-        screen.blit(start_continue_text, continue_location)
-    screen.blit(options_text, options_location)
-    pygame.display.update()
-
-
 objects = []
 objects.append(Wall(0, 0, True))
 objects.append(Wall(0, 64, True))
@@ -321,7 +303,7 @@ def text_display(phrase, text_color1, text_color2):
 
 def main():
     text_display(('M&T BANK...', 'THE GAME'), dark_green, yellow)
-    # load_map_data()
+    load_map_data()
     time.sleep(2)
     start_game(False, 'START')
     main_menu(False)
